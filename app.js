@@ -1,7 +1,8 @@
 // url : api.giphy.com/v1/gifs/search
 const input = document.querySelector("#search");
 const submitBtn = document.querySelector("#submit");
-
+const removeBtn = document.querySelector("#remove");
+const dropZone = document.querySelector("#dropZone");
 async function getGiphy(term) {
 	try {
 		let apiKey = "orxXr84olxyfJwzUPIPaxvfhzt3qDuv9";
@@ -12,10 +13,11 @@ async function getGiphy(term) {
 		// console.log(res.data[0].images.original.url);
 		let fig = document.createElement("figure");
 		let img = document.createElement("img");
-		img.src = res.data[0].images.original.url;
+		img.src = res.data.data[0].images.original.url;
 		fig.appendChild(img);
 		const dropZone = document.querySelector("#dropZone");
 		dropZone.insertAdjacentElement("afterbegin", fig);
+		input.value = "";
 	} catch (e) {
 		alert("Error in request or search bar");
 	}
@@ -24,4 +26,9 @@ submitBtn.addEventListener("click", function (e) {
 	e.preventDefault();
 	let searchTerm = input.value;
 	getGiphy(searchTerm);
+});
+
+removeBtn.addEventListener("click", function (e) {
+	e.preventDefault();
+	dropZone.innerHTML = "";
 });
